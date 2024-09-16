@@ -3,6 +3,36 @@
 
 #include "map.h"
 
+// acha a posição do herói
+void find_map(MAP* m, POSITION* p, char c)
+{
+    for(int i = 0; i < (m->rows); i++)
+    {
+        for(int j = 0; j < (m->columns); j++)
+        {
+            if(m->matrix[i][j] == c)
+            {
+                p->x = i;
+                p->y = j;
+                break;
+            }
+        }
+    }
+}
+
+void check_file_existence(FILE* file)
+{
+    if(file == 0)
+    {
+        puts("");
+        puts("********************************************");
+        puts("**   Falha no acesso ao banco de dados!   **");
+        puts("********************************************");
+        puts("");
+        exit(1);
+    }
+} 
+
 void read_map(MAP* m)
 {
     FILE* file;

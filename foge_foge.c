@@ -5,19 +5,7 @@
 #include "map.h"
 
 MAP m; // variável global somente nesse arquivo, ou seja, foge_foge.c
-
-void check_file_existence(FILE* file)
-{
-    if(file == 0)
-    {
-        puts("");
-        puts("********************************************");
-        puts("**   Falha no acesso ao banco de dados!   **");
-        puts("********************************************");
-        puts("");
-        exit(1);
-    }
-}
+POSITION hero;
 
 int finish_game()
 {
@@ -26,48 +14,36 @@ int finish_game()
 
 void move(char direction)
 {
-    int x;
-    int y;
-
-    // acha a posição do herói
-    for(int i = 0; i < (m.rows); i++)
-    {
-        for(int j = 0; j < (m.columns); j++)
-        {
-            if(m.matrix[i][j] == '@')
-            {
-                x = i;
-                y = j;
-                break;
-            }
-        }
-    }
+    m.matrix[hero.x][hero.y] = '.';    
 
     switch (direction)
     {
     case 'a':
-        m.matrix[x][y - 1] = '@';
+        m.matrix[hero.x][hero.y - 1] = '@';
+        hero.y--;
         break;
     case 'w':
-        m.matrix[x - 1][y] = '@';
+        m.matrix[hero.x - 1][hero.y] = '@';
+        hero.x--;
         break;
     case 's':
-        m.matrix[x + 1][y] = '@';
+        m.matrix[hero.x + 1][hero.y] = '@';
+        hero.x++;
         break;
     case 'd':
-        m.matrix[x][y + 1] = '@';
+        m.matrix[hero.x][hero.y + 1] = '@';
+        hero.y++;
         break;    
     default:
         puts("Comando inválido. As teclas válidas são apenas 'a', 'w', 's' e 'd'");
         break;
     }
-
-    m.matrix[x][y] = '.';
 }
 
 int main()
 {
     read_map(&m);
+    find_map(&m, &hero, '@');
 
     do
     {
